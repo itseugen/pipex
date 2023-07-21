@@ -6,14 +6,16 @@
 #    By: eweiberl <eweiberl@student.42heilbronn.    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/07/21 13:58:27 by eweiberl          #+#    #+#              #
-#    Updated: 2023/07/21 14:12:04 by eweiberl         ###   ########.fr        #
+#    Updated: 2023/07/21 16:15:53 by eweiberl         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
+
+NAME = pipex
 
 CC = cc
 CFLAGS = -Wall -Wextra -Werror
 
-SOURCE =
+SOURCE = main.c execute.c
 
 OBJS = $(SOURCE:.c=.o)
 
@@ -22,7 +24,7 @@ LIBFT_DIR = ./libft
 LIBFT_LIB = libft.a
 LIBFT = $(LIBFT_DIR)/$(LIBFT_LIB)
 
-all: $(NAME)
+all: $(LIBFT) $(NAME)
 
 .c.o:
 	$(CC) $(CFLAGS) -c $< -o $@
@@ -30,8 +32,8 @@ all: $(NAME)
 $(NAME): $(OBJS) $(LIBFT)
 	$(CC) $(CFLAGS) -o $(NAME) $(OBJS) $(LIBFT)
 
-$(LIBFT)
-	git clone $(LIBFt_GIT) $(LIBFT-DIR); make -C $(LIBFT_DIR)
+$(LIBFT):
+	git clone $(LIBFT_GIT) $(LIBFT_DIR); make -C $(LIBFT_DIR)
 	@cd libft && make
 
 libclean:
