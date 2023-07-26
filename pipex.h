@@ -6,7 +6,7 @@
 /*   By: eweiberl <eweiberl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 14:15:58 by eweiberl          #+#    #+#             */
-/*   Updated: 2023/07/25 16:58:15 by eweiberl         ###   ########.fr       */
+/*   Updated: 2023/07/26 14:02:52 by eweiberl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,9 @@ typedef struct s_pipe
 /* ************************************************************************** */
 
 int		execute_cmd(char *cmd);
-void	clean_exit(t_pipe pipe);
+void	clean_exit(t_pipe pipe, int returnval);
 int		first_child(int *pipe_fd, t_pipe pipe_x, char *argv[]);
 int		last_child(int *pipe_fd, t_pipe pipe_x, char *argv[]);
+void	fork_check(pid_t forkid, t_pipe pipe_x);
 
 #endif
