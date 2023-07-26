@@ -6,7 +6,7 @@
 /*   By: eweiberl <eweiberl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 14:19:47 by eweiberl          #+#    #+#             */
-/*   Updated: 2023/07/26 16:44:00 by eweiberl         ###   ########.fr       */
+/*   Updated: 2023/07/26 16:55:13 by eweiberl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,22 +82,6 @@ void	fork_check(pid_t forkid, t_pipe pipe_x)
 	}
 }
 
-/*
-	// int n;
-    // int filedes[2];
-    // char buffer[1025];
-    // char *message = "Hello, World!";
-	// atexit(leaks_check);
-    // pipe(filedes);
-    // write(filedes[1], message, ft_strlen(message));
-    // if ((n = read ( filedes[0], buffer, 1024 ) ) >= 0) {
-    //     buffer[n] = 0;  //terminate the string
-    //     printf("read %d bytes from the pipe: %s\n", n, buffer);
-    // }  
-    // else
-    //     perror("read");
-    // exit(0);
-	*/
 /*
 int	main(int argc, char *argv[])
 {
