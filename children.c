@@ -6,7 +6,7 @@
 /*   By: eweiberl <eweiberl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 16:48:50 by eweiberl          #+#    #+#             */
-/*   Updated: 2023/07/26 14:01:58 by eweiberl         ###   ########.fr       */
+/*   Updated: 2023/07/27 15:59:47 by eweiberl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int	first_child(int *pipe_fd, t_pipe pipe_x, char *argv[])
 	return (0);
 }
 
-int	last_child(int *pipe_fd, t_pipe pipe_x, char *argv[])
+int	last_child(int *pipe_fd, t_pipe pipe_x, char *argv[], int argc)
 {
 	close(pipe_fd[1]);
 	if (dup2(pipe_fd[0], STDIN_FILENO) == -1)
@@ -39,7 +39,24 @@ int	last_child(int *pipe_fd, t_pipe pipe_x, char *argv[])
 		return (perror("dup2 fail"),
 			close(pipe_fd[0]), clean_exit(pipe_x, 1), 1);
 	close(pipe_fd[0]);
-	if (execute_cmd(argv[3]) == 1)
+	if (execute_cmd(argv[argc - 2]) == 1)
+		clean_exit(pipe_x, 1);
+	clean_exit(pipe_x, 0);
+	return (0);
+}
+
+int	middle_child(int *pipe_fd, t_pipe pipe_x, char *cmd)
+{
+	// ft_printf("Executing: %s\n", cmd);
+	if (dup2(pipe_fd[0], STDIN_FILENO) == -1)
+		return (perror("dup2 fail"),
+			close(pipe_fd[0]), clean_exit(pipe_x, 1), 1);
+	if (dup2(pipe_fd[1], STDOUT_FILENO) == -1)
+		return (perror("dup2 fail"),
+			close(pipe_fd[0]), clean_exit(pipe_x, 1), 1);
+	close(pipe_fd[0]);
+	close(pipe_fd[1]);
+	if (execute_cmd(cmd) == 1)
 		clean_exit(pipe_x, 1);
 	clean_exit(pipe_x, 0);
 	return (0);
