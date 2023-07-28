@@ -6,7 +6,7 @@
 /*   By: eweiberl <eweiberl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 14:19:47 by eweiberl          #+#    #+#             */
-/*   Updated: 2023/07/27 15:57:45 by eweiberl         ###   ########.fr       */
+/*   Updated: 2023/07/28 13:53:39 by eweiberl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ int	multiple_pipe(t_pipe pipe_x, int argc, char *argv[])
 		fork_check(pro_id, pipe_x);
 		if (pro_id == 0)
 			middle_child(pipe_fd, pipe_x, argv[i]);
-		// waitpid(pro_id, NULL, 1);
+		waitpid(pro_id, NULL, -1);
 		i++;
 	}
 	pro_id = fork();
