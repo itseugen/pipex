@@ -6,7 +6,7 @@
 #    By: eweiberl <eweiberl@student.42heilbronn.    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/07/21 13:58:27 by eweiberl          #+#    #+#              #
-#    Updated: 2023/07/28 13:57:30 by eweiberl         ###   ########.fr        #
+#    Updated: 2023/07/31 16:27:59 by eweiberl         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -35,6 +35,9 @@ $(NAME): $(OBJS) $(LIBFT)
 $(LIBFT):
 	git clone $(LIBFT_GIT) $(LIBFT_DIR); make -C $(LIBFT_DIR)
 	@cd libft && make
+
+debug: $(SOURCE) $(LIBFT)
+	$(CC) -g -o $(NAME) $(SOURCE) ./libft/*/*.c
 
 libclean:
 	rm -rf $(LIBFT_DIR)
