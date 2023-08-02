@@ -142,6 +142,7 @@ int	multiple_pipe(t_pipe pipe_x, int argc, char *argv[])
 	int		pipe_fd[2];
 	pid_t	pro_id;
 
+
 	i = 3;
 	if (pipe(pipe_fd) == -1)
 		return (perror("pipe fail"), 1);
@@ -163,16 +164,17 @@ int	multiple_pipe(t_pipe pipe_x, int argc, char *argv[])
 			middle_child(pipe_fd, pipe_x, argv[i]);
 		if (dup2(pipe_fd[0], STDIN_FILENO) == -1)
 			return (perror("dup2 fail"), 1);
-		close(pipe_fd[0]);
-		close(pipe_fd[1]);
 		i++;
+		if (i < argc - 2)
+		{
+			close(pipe_fd[0]);
+			close(pipe_fd[1]);
+		}
 	}
 	pro_id = fork();
 	fork_check(pro_id, pipe_x);
 	if (pro_id == 0)
 		last_child(pipe_fd, pipe_x, argv, argc);
-	close(pipe_fd[0]);
-	close(pipe_fd[1]);
 	close(pipe_fd[0]);
 	close(pipe_fd[1]);
 	return (clean_exit(pipe_x, 0), 0);
