@@ -6,7 +6,7 @@
 /*   By: eweiberl <eweiberl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 14:19:47 by eweiberl          #+#    #+#             */
-/*   Updated: 2023/08/01 13:41:23 by eweiberl         ###   ########.fr       */
+/*   Updated: 2023/08/03 12:39:11 by eweiberl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,7 +141,6 @@ int	multiple_pipe(t_pipe pipe_x, int argc, char *argv[])
 	int		i;
 	int		pipe_fd[2];
 	pid_t	pro_id;
-
 
 	i = 3;
 	if (pipe(pipe_fd) == -1)
