@@ -6,14 +6,15 @@
 /*   By: eweiberl <eweiberl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 14:19:47 by eweiberl          #+#    #+#             */
-/*   Updated: 2023/08/03 12:39:11 by eweiberl         ###   ########.fr       */
+/*   Updated: 2023/08/03 13:30:26 by eweiberl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-int	standart_pipe(t_pipe pipe_x, int argc, char *argv[]);
-int	multiple_pipe(t_pipe pipe_x, int argc, char *argv[]);
+static int	standart_pipe(t_pipe pipe_x, int argc, char *argv[]);
+static int	multiple_pipe(t_pipe pipe_x, int argc, char *argv[]);
+static int	middle_pipes(int argc, char *argv[], t_pipe pipe_x, int *pipe_fd);
 
 void	leaks_check(void)
 {
@@ -39,7 +40,7 @@ int	main(int argc, char *argv[])
 	return (0);
 }
 
-int	standart_pipe(t_pipe pipe_x, int argc, char *argv[])
+static int	standart_pipe(t_pipe pipe_x, int argc, char *argv[])
 {
 	int		pipe_fd[2];
 	pid_t	pro_id;
@@ -59,90 +60,11 @@ int	standart_pipe(t_pipe pipe_x, int argc, char *argv[])
 	return (0);
 }
 
-// int	multiple_pipe(t_pipe pipe_x, int argc, char *argv[])
-// {
-// 	int		i;
-// 	int		pipe_fd[2];
-// 	pid_t	pro_id;
-
-// 	i = 3;
-// 	if (pipe(pipe_fd) == -1)
-// 		return (perror("pipe fail"), 1);
-// 	pro_id = fork();
-// 	fork_check(pro_id, pipe_x);
-// 	if (pro_id == 0)
-// 		first_child(pipe_fd, pipe_x, argv);
-// 	while (i < argc - 2)
-// 	{
-// 		pro_id = fork();
-// 		fork_check(pro_id, pipe_x);
-// 		if (pro_id == 0)
-// 			middle_child(pipe_fd, pipe_x, argv[i]);
-// 		waitpid(pro_id, NULL, -1);
-// 		i++;
-// 	}
-// 	pro_id = fork();
-// 	fork_check(pro_id, pipe_x);
-// 	if (pro_id == 0)
-// 		last_child(pipe_fd, pipe_x, argv, argc);
-// 	return (clean_exit(pipe_x, 0), 0);
-// }
-
-/*
-Child 1 reads from pipe1 and writes to pipe2, while Child 2
-reads from pipe2 and writes to pipe1
-*/
-// int	multiple_pipe(t_pipe pipe_x, int argc, char *argv[])
-// {
-// 	int		i;
-// 	int		pipe1[2];
-// 	int		pipe2[2];
-// 	pid_t	pro_id;
-
-// 	i = 3;
-// 	if (pipe(pipe1) == -1 || pipe(pipe2) == -1)
-// 		return (perror("pipe fail"), 1);
-// 	pro_id = fork();
-// 	fork_check(pro_id, pipe_x);
-// 	if (pro_id == 0)
-// 		first_child(pipe2, pipe_x, argv);
-// 	while (i < argc - 2)
-// 	{
-// 		pro_id = fork();
-// 		fork_check(pro_id, pipe_x);
-// 		if (pro_id == 0)
-// 		{
-// 			if (i % 2 == 0)
-// 				middle_child(pipe2, pipe1, pipe_x, argv[i]);
-// 			else
-// 				middle_child(pipe1, pipe2, pipe_x, argv[i]);
-// 		}
-// 		// waitpid(pro_id, NULL, 0);
-// 		i++;
-// 	}
-// 	pro_id = fork();
-// 	fork_check(pro_id, pipe_x);
-// 	if (pro_id == 0)
-// 	{
-// 		if ((i - 1) % 2 == 0)
-// 			last_child(pipe2, pipe_x, argv, argc);
-// 		else
-// 			last_child(pipe1, pipe_x, argv, argc);
-// 	}
-// 	close(pipe1[0]);
-// 	close(pipe1[1]);
-// 	close(pipe2[0]);
-// 	close(pipe2[1]);
-// 	return (clean_exit(pipe_x, 0), 0);
-// }
-
-int	multiple_pipe(t_pipe pipe_x, int argc, char *argv[])
+static int	multiple_pipe(t_pipe pipe_x, int argc, char *argv[])
 {
-	int		i;
 	int		pipe_fd[2];
 	pid_t	pro_id;
 
-	i = 3;
 	if (pipe(pipe_fd) == -1)
 		return (perror("pipe fail"), 1);
 	pro_id = fork();
@@ -153,6 +75,23 @@ int	multiple_pipe(t_pipe pipe_x, int argc, char *argv[])
 		return (perror("dup2 fail"), 1);
 	close(pipe_fd[0]);
 	close(pipe_fd[1]);
+	if (middle_pipes(argc, argv, pipe_x, pipe_fd) == 1)
+		return (clean_exit(pipe_x, 0), 1);
+	pro_id = fork();
+	fork_check(pro_id, pipe_x);
+	if (pro_id == 0)
+		last_child(pipe_fd, pipe_x, argv, argc);
+	close(pipe_fd[0]);
+	close(pipe_fd[1]);
+	return (clean_exit(pipe_x, 0), 0);
+}
+
+static int	middle_pipes(int argc, char *argv[], t_pipe pipe_x, int *pipe_fd)
+{
+	int		i;
+	pid_t	pro_id;
+
+	i = 3;
 	while (i < argc - 2)
 	{
 		if (pipe(pipe_fd) == -1)
@@ -170,11 +109,5 @@ int	multiple_pipe(t_pipe pipe_x, int argc, char *argv[])
 			close(pipe_fd[1]);
 		}
 	}
-	pro_id = fork();
-	fork_check(pro_id, pipe_x);
-	if (pro_id == 0)
-		last_child(pipe_fd, pipe_x, argv, argc);
-	close(pipe_fd[0]);
-	close(pipe_fd[1]);
-	return (clean_exit(pipe_x, 0), 0);
+	return (0);
 }
