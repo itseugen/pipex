@@ -6,7 +6,7 @@
 /*   By: eweiberl <eweiberl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/27 15:09:12 by eweiberl          #+#    #+#             */
-/*   Updated: 2023/07/27 15:17:20 by eweiberl         ###   ########.fr       */
+/*   Updated: 2023/08/03 13:21:56 by eweiberl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,4 @@ void	check_arg(int argc, char *argv[])
 	(void)argv;
 	if (argc < 5)
 		exit(0);
-	// if (argc > 5)
-	// 	exit (0);
 }
