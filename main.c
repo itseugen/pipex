@@ -6,7 +6,7 @@
 /*   By: eweiberl <eweiberl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 14:19:47 by eweiberl          #+#    #+#             */
-/*   Updated: 2023/08/04 15:37:59 by eweiberl         ###   ########.fr       */
+/*   Updated: 2023/08/04 16:31:58 by eweiberl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ int	main(int argc, char *argv[], char *envp[])
 {
 	t_pipe	pipe_x;
 
+	pipe_x.shell = NULL;
 	pipe_x.envp = envp;
 	pipe_x.fd_in = open(argv[1], O_RDONLY);
 	pipe_x.fd_out = open(argv[argc - 1], O_WRONLY | O_CREAT | O_TRUNC, 0644);
