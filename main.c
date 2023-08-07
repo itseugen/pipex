@@ -6,7 +6,7 @@
 /*   By: eweiberl <eweiberl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 14:19:47 by eweiberl          #+#    #+#             */
-/*   Updated: 2023/08/07 14:06:33 by eweiberl         ###   ########.fr       */
+/*   Updated: 2023/08/07 16:23:28 by eweiberl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,12 @@ static int	standart_pipe(t_pipe pipe_x, int argc, char *argv[]);
 static int	multiple_pipe(t_pipe pipe_x, int argc, char *argv[]);
 static int	middle_pipes(int argc, char *argv[], t_pipe pipe_x, int *pipe_fd);
 
-void	leaks_check(void)
-{
-	yellow();
-	system("leaks pipex");
-	white();
-}
+// void	leaks_check(void)
+// {
+// 	yellow();
+// 	system("leaks pipex");
+// 	white();
+// }
 
 int	main(int argc, char *argv[], char *envp[])
 {
@@ -58,9 +58,11 @@ static int	standart_pipe(t_pipe pipe_x, int argc, char *argv[])
 	fork_check(pro_id2, pipe_x);
 	if (pro_id2 == 0)
 		last_child(pipe_fd, pipe_x, argv, argc);
+	while (waitpid(-1, NULL, WUNTRACED) > 0);
 	clean_exit(pipe_x, 0);
 	return (0);
 }
+
 
 static int	multiple_pipe(t_pipe pipe_x, int argc, char *argv[])
 {
