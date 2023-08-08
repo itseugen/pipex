@@ -6,7 +6,7 @@
 /*   By: eweiberl <eweiberl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 14:19:47 by eweiberl          #+#    #+#             */
-/*   Updated: 2023/08/08 15:40:43 by eweiberl         ###   ########.fr       */
+/*   Updated: 2023/08/08 16:22:05 by eweiberl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,8 @@ int	main(int argc, char *argv[], char *envp[])
 
 	pipe_x.shell = NULL;
 	pipe_x.envp = envp;
+	if (ft_strncmp(argv[1], "here_doc", 9) == 0)
+		here_doc(pipe_x, argc, argv);
 	pipe_x.fd_in = open(argv[1], O_RDONLY);
 	pipe_x.fd_out = open(argv[argc - 1], O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (pipe_x.fd_in == -1 || pipe_x.fd_out == -1)

@@ -6,7 +6,7 @@
 #    By: eweiberl <eweiberl@student.42heilbronn.    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/07/21 13:58:27 by eweiberl          #+#    #+#              #
-#    Updated: 2023/08/03 12:40:43 by eweiberl         ###   ########.fr        #
+#    Updated: 2023/08/08 16:25:37 by eweiberl         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,7 @@ NAME = pipex
 CC = cc
 CFLAGS = -Wall -Wextra -Werror
 
-SOURCE = main.c execute.c children.c checks.c
+SOURCE = main.c execute.c children.c checks.c heredoc.c
 
 OBJS = $(SOURCE:.c=.o)
 
