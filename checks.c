@@ -6,7 +6,7 @@
 /*   By: eweiberl <eweiberl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/27 15:09:12 by eweiberl          #+#    #+#             */
-/*   Updated: 2023/08/07 15:18:36 by eweiberl         ###   ########.fr       */
+/*   Updated: 2023/08/08 15:14:28 by eweiberl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,4 +40,16 @@ void	check_arg(int argc, char *argv[])
 	(void)argv;
 	if (argc < 5)
 		exit(0);
+}
+
+void	wait_for_children(int argc)
+{
+	int	i;
+
+	i = 0;
+	while (i < argc - 2)
+	{
+		wait(NULL);
+		i++;
+	}
 }

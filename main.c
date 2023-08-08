@@ -6,7 +6,7 @@
 /*   By: eweiberl <eweiberl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 14:19:47 by eweiberl          #+#    #+#             */
-/*   Updated: 2023/08/07 16:23:28 by eweiberl         ###   ########.fr       */
+/*   Updated: 2023/08/08 15:14:12 by eweiberl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,11 +58,12 @@ static int	standart_pipe(t_pipe pipe_x, int argc, char *argv[])
 	fork_check(pro_id2, pipe_x);
 	if (pro_id2 == 0)
 		last_child(pipe_fd, pipe_x, argv, argc);
-	while (waitpid(-1, NULL, WUNTRACED) > 0);
-	clean_exit(pipe_x, 0);
+	close(pipe_fd[0]);
+	close(pipe_fd[1]);
+	wait(NULL);
+	wait(NULL);
 	return (0);
 }
-
 
 static int	multiple_pipe(t_pipe pipe_x, int argc, char *argv[])
 {
@@ -87,6 +88,7 @@ static int	multiple_pipe(t_pipe pipe_x, int argc, char *argv[])
 		last_child(pipe_fd, pipe_x, argv, argc);
 	close(pipe_fd[0]);
 	close(pipe_fd[1]);
+	wait_for_children(argc);
 	return (clean_exit(pipe_x, 0), 0);
 }
 

@@ -6,7 +6,7 @@
 /*   By: eweiberl <eweiberl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 14:15:58 by eweiberl          #+#    #+#             */
-/*   Updated: 2023/08/04 16:02:04 by eweiberl         ###   ########.fr       */
+/*   Updated: 2023/08/08 15:14:51 by eweiberl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,5 +45,6 @@ int		last_child(int *pipe_fd, t_pipe pipe_x, char *argv[], int argc);
 int		middle_child(int *pipe_fd, t_pipe pipe_x, char *cmd);
 void	fork_check(pid_t forkid, t_pipe pipe_x);
 void	check_arg(int argc, char *argv[]);
+void	wait_for_children(int argc);
 
 #endif
