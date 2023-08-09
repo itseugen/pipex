@@ -6,7 +6,7 @@
 /*   By: eweiberl <eweiberl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/08 16:14:15 by eweiberl          #+#    #+#             */
-/*   Updated: 2023/08/09 15:34:36 by eweiberl         ###   ########.fr       */
+/*   Updated: 2023/08/09 15:50:46 by eweiberl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,18 +52,18 @@ static int	read_terminal(char *argv[], int *pipe_fd, t_pipe pipe_x)
 	char	*gnl;
 
 	limit = ft_strjoin(argv[2], "\n");
+	if (limit == NULL)
+		return (perror("malloc fail"), clean_exit(pipe_x, 1), 1);
 	gnl = get_next_line(STDIN_FILENO);
-	if (limit == NULL || gnl == NULL)
-		return (perror("malloc fail"), free(gnl),
-			free(limit), clean_exit(pipe_x, 1), 1);
-	while (ft_strncmp(gnl, limit, ft_strlen(limit) + 1) != 0 && gnl != NULL)
+	while (gnl != NULL && ft_strncmp(gnl, limit, ft_strlen(limit) + 1) != 0)
 	{
 		write(pipe_fd[1], gnl, ft_strlen(gnl));
 		free(gnl);
 		gnl = get_next_line(STDIN_FILENO);
 	}
 	close(pipe_fd[1]);
-	free(gnl);
+	if (gnl != NULL)
+		free(gnl);
 	free(limit);
 	if (dup2(pipe_fd[0], STDIN_FILENO) == -1)
 		return (perror("dup2 fail"), clean_exit(pipe_x, 1), 1);
