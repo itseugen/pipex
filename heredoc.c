@@ -6,7 +6,7 @@
 /*   By: eweiberl <eweiberl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/08 16:14:15 by eweiberl          #+#    #+#             */
-/*   Updated: 2023/08/09 15:50:46 by eweiberl         ###   ########.fr       */
+/*   Updated: 2023/09/12 18:00:44 by eweiberl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,8 @@ static int	first_child_here_doc(int *pipe_fd, t_pipe pipe_x, char *argv[])
 	if (dup2(pipe_fd[1], STDOUT_FILENO) == -1)
 		return (perror("dup2 fail"),
 			close(pipe_fd[1]), clean_exit(pipe_x, 1), 1);
+	close(pipe_x.fd_in);
+	close(pipe_x.fd_out);
 	close(pipe_fd[1]);
 	if (execute_cmd(argv[3], pipe_x) == 1)
 		clean_exit(pipe_x, 1);
@@ -94,6 +96,8 @@ static int	last_child_here_doc(int *pipe_fd, t_pipe pipe_x,
 	if (dup2(pipe_x.fd_out, STDOUT_FILENO) == -1)
 		return (perror("dup2 fail"),
 			close(pipe_fd[0]), clean_exit(pipe_x, 1), 1);
+	close(pipe_x.fd_in);
+	close(pipe_x.fd_out);
 	close(pipe_fd[0]);
 	if (execute_cmd(argv[argc - 2], pipe_x) == 1)
 		clean_exit(pipe_x, 1);
