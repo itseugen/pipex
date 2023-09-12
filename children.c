@@ -6,7 +6,7 @@
 /*   By: eweiberl <eweiberl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 16:48:50 by eweiberl          #+#    #+#             */
-/*   Updated: 2023/09/12 17:58:52 by eweiberl         ###   ########.fr       */
+/*   Updated: 2023/09/12 18:08:40 by eweiberl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,8 @@ int	first_child(int *pipe_fd, t_pipe pipe_x, char *argv[])
 	if (dup2(pipe_x.fd_in, STDIN_FILENO) == -1)
 		return (perror("dup2 fail"),
 			close(pipe_fd[1]), clean_exit(pipe_x, 1), 1);
-		close(pipe_x.fd_in);
-		close(pipe_x.fd_out);
+	close(pipe_x.fd_in);
+	close(pipe_x.fd_out);
 	if (dup2(pipe_fd[1], STDOUT_FILENO) == -1)
 		return (perror("dup2 fail"),
 			close(pipe_fd[1]), clean_exit(pipe_x, 1), 1);
